@@ -2,7 +2,7 @@
 
 Como rodar o projeto:
 
-- Ter jdk ou jre instalada (java 17)
+- Ter jdk ou jre instalada (java 11)
 - clonar o projeto para a sua máquina <br/>
   - git clone https://github.com/abnerwerley/delivery-fee
 
