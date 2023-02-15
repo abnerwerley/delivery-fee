@@ -1,4 +1,4 @@
-package com.delivery.FeeService;
+package com.delivery.feeService;
 
 import com.delivery.address.dto.AddressTO;
 import com.delivery.address.service.AddressService;

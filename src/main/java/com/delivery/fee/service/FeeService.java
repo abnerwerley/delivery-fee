@@ -5,6 +5,8 @@ import com.delivery.address.service.AddressService;
 import com.delivery.exception.RequestException;
 import com.delivery.fee.dto.EnumBrazilianZones;
 import com.delivery.fee.dto.FeeResponse;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,8 @@ import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
+@AllArgsConstructor
+@NoArgsConstructor
 public class FeeService {
 
     @Autowired

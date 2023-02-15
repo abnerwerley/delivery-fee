@@ -2,6 +2,8 @@ package com.delivery.address.service;
 
 import com.delivery.address.dto.AddressTO;
 import com.delivery.exception.RequestException;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
@@ -11,6 +13,8 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AddressService {
 
     @Autowired
