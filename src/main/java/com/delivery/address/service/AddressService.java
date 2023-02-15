@@ -5,16 +5,19 @@ import com.delivery.exception.RequestException;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import reactor.core.publisher.Mono;
 
 @Service
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Slf4j
 public class AddressService {
 
     @Autowired
@@ -28,8 +31,13 @@ public class AddressService {
                     .bodyToMono(AddressTO.class);
 
             return monoAddress.block();
+
+        } catch (WebClientResponseException e) {
+            log.error("Please verify if cep has 8 numbers, and numbers only.");
+            throw new RequestException("Please verify if cep has 8 numbers, and numbers only.");
+
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             throw new RequestException("Could not find Address by cep : " + cep);
         }
     }

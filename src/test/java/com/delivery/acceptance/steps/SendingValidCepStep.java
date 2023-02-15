@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Assertions;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.math.BigDecimal;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class SendingValidCepStep {
 
     public static final String CEP = "04851280";
@@ -49,5 +53,6 @@ public class SendingValidCepStep {
         FeeController controller = new FeeController(service);
         FeeResponse response = controller.getFeeByCep(form);
         Assertions.assertNotNull(response);
+        assertEquals(new BigDecimal("7.85"), response.getFrete());
     }
 }
