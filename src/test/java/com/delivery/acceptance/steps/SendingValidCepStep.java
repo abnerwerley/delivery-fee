@@ -32,7 +32,7 @@ public class SendingValidCepStep {
         AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
-        Assertions.assertNotNull(controller.getFeeByCep(form));
+        Assertions.assertNotNull(controller.getDeliveryFeeByCep(form));
     }
 
     @Then("FeeResponse is returned according to cep")
@@ -42,7 +42,7 @@ public class SendingValidCepStep {
         AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
-        FeeResponse response = controller.getFeeByCep(form);
+        FeeResponse response = controller.getDeliveryFeeByCep(form);
         Assertions.assertNotNull(response);
         assertEquals(new BigDecimal("7.85"), response.getFrete());
     }

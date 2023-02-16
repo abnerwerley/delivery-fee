@@ -21,7 +21,7 @@ public class FeeController {
 
     @PostMapping("/consulta-endereco")
     @ResponseStatus(HttpStatus.OK)
-    public FeeResponse getFeeByCep(@RequestBody(required = true) CepForm form) {
+    public FeeResponse getDeliveryFeeByCep(@RequestBody(required = true) CepForm form) {
         return service.generateResponse(form.getCep());
     }
 }

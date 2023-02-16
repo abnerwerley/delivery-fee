@@ -30,7 +30,7 @@ public class SendingInValidCepStep {
         AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
-        Exception exception = Assertions.assertThrows(RequestException.class, () -> controller.getFeeByCep(form));
+        Exception exception = Assertions.assertThrows(RequestException.class, () -> controller.getDeliveryFeeByCep(form));
         assertNotNull(exception);
     }
 
@@ -41,7 +41,7 @@ public class SendingInValidCepStep {
         AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
-        Exception exception = assertThrows(RequestException.class, () -> controller.getFeeByCep(form));
+        Exception exception = assertThrows(RequestException.class, () -> controller.getDeliveryFeeByCep(form));
         assertNotNull(exception);
         assertEquals("Please verify if cep has 8 numbers, and numbers only.", exception.getMessage());
     }

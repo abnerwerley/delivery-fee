@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public enum EnumBrazilianZones {
+public enum EnumBrazilianRegions {
 
     NORTE(Arrays.asList("AC", "AP", "AM", "PA", "RO", "RR", "TO"), new BigDecimal("20.83")),
     NORDESTE(Arrays.asList("AL", "BA", "CE", "MA", "PB", "PE", "PI", "RN", "SE"), new BigDecimal("15.98")),
@@ -18,7 +18,7 @@ public enum EnumBrazilianZones {
     private final List<String> states;
     private final BigDecimal fee;
 
-    EnumBrazilianZones(List<String> states, BigDecimal fee) {
+    EnumBrazilianRegions(List<String> states, BigDecimal fee) {
         this.states = states;
         this.fee = fee;
     }
