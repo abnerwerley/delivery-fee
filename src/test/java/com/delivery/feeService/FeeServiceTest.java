@@ -49,28 +49,28 @@ class FeeServiceTest {
 
     @Test
     void testGenerateResponse() {
-        doReturn(getAddressTo(SP)).when(addressService).getAddress(CEP);
-        addressService.getAddress(CEP);
+        doReturn(getAddressTo(SP)).when(addressService).getAddressTemplate(CEP);
+        addressService.getAddressTemplate(CEP);
         FeeResponse sp = service.generateResponse(CEP);
         assertNotNull(sp);
         assertEquals(SUDESTE_FEE, sp.getFrete());
 
-        doReturn(getAddressTo(AL)).when(addressService).getAddress(CEP);
+        doReturn(getAddressTo(AL)).when(addressService).getAddressTemplate(CEP);
         FeeResponse al = service.generateResponse(CEP);
         assertNotNull(al);
         assertEquals(NORDESTE_FEE, al.getFrete());
 
-        doReturn(getAddressTo(DF)).when(addressService).getAddress(CEP);
+        doReturn(getAddressTo(DF)).when(addressService).getAddressTemplate(CEP);
         FeeResponse df = service.generateResponse(CEP);
         assertNotNull(df);
         assertEquals(CENTRO_OESTE_FEE, df.getFrete());
 
-        doReturn(getAddressTo(PR)).when(addressService).getAddress(CEP);
+        doReturn(getAddressTo(PR)).when(addressService).getAddressTemplate(CEP);
         FeeResponse pr = service.generateResponse(CEP);
         assertNotNull(pr);
         assertEquals(SUL_FEE, pr.getFrete());
 
-        doReturn(getAddressTo(AC)).when(addressService).getAddress(CEP);
+        doReturn(getAddressTo(AC)).when(addressService).getAddressTemplate(CEP);
         FeeResponse ac = service.generateResponse(CEP);
         assertNotNull(ac);
         assertEquals(NORTE_FEE, ac.getFrete());
@@ -128,18 +128,6 @@ class FeeServiceTest {
         Exception notAState = Assertions.assertThrows(NoSuchElementException.class, () -> service.getFeeByZone(NOT_A_STATE));
         assertNotNull(notAState);
         assertEquals("State isn't from Brazil.", notAState.getMessage());
-    }
-
-    private FeeResponse getFeeResponse(String uf, BigDecimal fee) {
-        return FeeResponse.builder()
-                .cep(CEP)
-                .rua(LOGRADOURO)
-                .complemento(COMPLEMENTO)
-                .bairro(BAIRRO)
-                .cidade(LOCALIDADE)
-                .estado(uf)
-                .frete(fee)
-                .build();
     }
 
     public AddressTO getAddressTo(String uf) {

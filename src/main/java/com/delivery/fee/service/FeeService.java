@@ -25,7 +25,7 @@ public class FeeService {
 
     public FeeResponse generateResponse(String cep) {
         try {
-            AddressTO address = addressService.getAddress(cep);
+            AddressTO address = addressService.getAddressTemplate(cep);
             verifyZone(address.getUf());
             return new FeeResponse(address, getFeeByZone(address.getUf()));
         } catch (RequestException e) {

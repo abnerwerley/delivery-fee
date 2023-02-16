@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException;
-import reactor.core.publisher.Mono;
+import org.springframework.web.client.RestTemplate;
 
 @Service
 @Setter
@@ -21,24 +19,18 @@ import reactor.core.publisher.Mono;
 public class AddressService {
 
     @Autowired
-    private WebClient webClient;
+    private RestTemplate restTemplate;
 
-    public AddressTO getAddress(String cep) {
+    public AddressTO getAddressTemplate(String cep) {
         try {
-            Mono<AddressTO> monoAddress = webClient.method(HttpMethod.GET)
-                    .uri("/{cep}/json", cep)
-                    .retrieve()
-                    .bodyToMono(AddressTO.class);
-
-            return monoAddress.block();
-
-        } catch (WebClientResponseException e) {
-            log.error("Please verify if cep has 8 numbers, and numbers only.");
-            throw new RequestException("Please verify if cep has 8 numbers, and numbers only.");
+            String url = "https://viacep.com.br/ws/" + cep + "/json/";
+            ResponseEntity<AddressTO> response = restTemplate.getForEntity(url, AddressTO.class);
+            return response.getBody();
 
         } catch (Exception e) {
-            log.error(e.getMessage());
-            throw new RequestException("Could not find Address by cep : " + cep);
+
+            log.error("Please verify if cep has 8 numbers, and numbers only.");
+            throw new RequestException("Please verify if cep has 8 numbers, and numbers only.");
         }
     }
 }

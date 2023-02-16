@@ -10,8 +10,7 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 
@@ -29,12 +28,8 @@ public class SendingValidCepStep {
     @When("request is made")
     public void request_is_made() {
         CepForm form = new CepForm(CEP);
-        WebClient client = WebClient.builder()
-                .baseUrl("viacep.com.br/ws")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/vnd.api+json")
-                .defaultHeader(HttpHeaders.ACCEPT, "application/vnd.api+json")
-                .build();
-        AddressService addressService = new AddressService(client);
+        RestTemplate restTemplate = new RestTemplate();
+        AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
         Assertions.assertNotNull(controller.getFeeByCep(form));
@@ -43,12 +38,8 @@ public class SendingValidCepStep {
     @Then("FeeResponse is returned according to cep")
     public void feeResponse_is_returned_according_to_cep() {
         CepForm form = new CepForm(CEP);
-        WebClient client = WebClient.builder()
-                .baseUrl("viacep.com.br/ws")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/vnd.api+json")
-                .defaultHeader(HttpHeaders.ACCEPT, "application/vnd.api+json")
-                .build();
-        AddressService addressService = new AddressService(client);
+        RestTemplate restTemplate = new RestTemplate();
+        AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
         FeeResponse response = controller.getFeeByCep(form);
