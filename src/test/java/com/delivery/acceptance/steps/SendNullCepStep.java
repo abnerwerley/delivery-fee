@@ -14,17 +14,17 @@ import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SendingInValidCepStep {
+public class SendNullCepStep {
 
-    public static final String CEP = "A1234567";
+    public static final String CEP = null;
 
-    @Given("invalid cep")
-    public void invalid_cep() {
+    @Given("null cep")
+    public void null_cep() {
         CepForm form = new CepForm(CEP);
     }
 
-    @When("request is made with invalid id")
-    public void request_is_made_with_invalid_id() {
+    @When("request is made with null cep")
+    public void request_is_made_with_null_cep() {
         CepForm form = new CepForm(CEP);
         RestTemplate restTemplate = new RestTemplate();
         AddressService addressService = new AddressService(restTemplate);
@@ -34,8 +34,8 @@ public class SendingInValidCepStep {
         assertNotNull(exception);
     }
 
-    @Then("RequestException is thrown explaining the error")
-    public void requestException_is_thrown_explaining_the_error() {
+    @Then("RequestException is thrown explaining that field cep is mandatory")
+    public void requestException_is_thrown_explaining_that_field_cep_is_mandatory() {
         CepForm form = new CepForm(CEP);
         RestTemplate restTemplate = new RestTemplate();
         AddressService addressService = new AddressService(restTemplate);
@@ -43,6 +43,6 @@ public class SendingInValidCepStep {
         FeeController controller = new FeeController(service);
         Exception exception = assertThrows(RequestException.class, () -> controller.getDeliveryFeeByCep(form));
         assertNotNull(exception);
-        assertEquals("Please verify if cep has 8 numbers, and numbers only.", exception.getMessage());
+        assertEquals("Cep is mandatory.", exception.getMessage());
     }
 }
