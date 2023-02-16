@@ -25,9 +25,12 @@ public class FeeService {
 
     public FeeResponse generateResponse(String cep) {
         try {
-            AddressTO address = addressService.getAddressTemplate(cep);
-            verifyZone(address.getUf());
-            return new FeeResponse(address, getFeeByZone(address.getUf()));
+            if (cep != null) {
+                AddressTO address = addressService.getAddressTemplate(cep);
+                verifyZone(address.getUf());
+                return new FeeResponse(address, getFeeByZone(address.getUf()));
+            }
+            throw new RequestException("Cep is mandatory.");
         } catch (RequestException e) {
             log.error(e.getMessage());
             throw new RequestException(e.getMessage());

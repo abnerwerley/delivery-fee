@@ -2,6 +2,7 @@ package com.delivery.feeService;
 
 import com.delivery.address.dto.AddressTO;
 import com.delivery.address.service.AddressService;
+import com.delivery.exception.RequestException;
 import com.delivery.fee.dto.EnumBrazilianZones;
 import com.delivery.fee.dto.FeeResponse;
 import com.delivery.fee.service.FeeService;
@@ -74,6 +75,11 @@ class FeeServiceTest {
         FeeResponse ac = service.generateResponse(CEP);
         assertNotNull(ac);
         assertEquals(NORTE_FEE, ac.getFrete());
+
+        Exception exception = Assertions.assertThrows(RequestException.class, () -> service.generateResponse(null));
+        assertNotNull(exception);
+        assertEquals("Cep is mandatory.", exception.getMessage());
+
     }
 
     @Test
