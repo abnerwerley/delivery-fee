@@ -7,7 +7,7 @@ public class ExceptionResponseDetails {
     private String title;
     private int status;
     private String detail;
-    private long timestamp;
+    private String timestamp;
     private String message;
 
     private ExceptionResponseDetails() {
@@ -17,7 +17,7 @@ public class ExceptionResponseDetails {
         private String title;
         private int status;
         private String detail;
-        private long timestamp;
+        private String timestamp;
         private String message;
 
         private Builder() {
@@ -42,7 +42,7 @@ public class ExceptionResponseDetails {
             return this;
         }
 
-        public Builder timestamp(long timestamp) {
+        public Builder timestamp(String timestamp) {
             this.timestamp = timestamp;
             return this;
         }

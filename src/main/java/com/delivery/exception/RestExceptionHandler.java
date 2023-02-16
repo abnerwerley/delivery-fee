@@ -5,7 +5,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.util.Date;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @ControllerAdvice
 public class RestExceptionHandler {
@@ -17,7 +18,7 @@ public class RestExceptionHandler {
                 .title("Request Exception")
                 .status(HttpStatus.BAD_REQUEST.value())
                 .detail(e.getMessage())
-                .timestamp(new Date().getTime())
+                .timestamp(LocalDateTime.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss")))
                 .message(e.getClass().getName())
                 .build();
         return new ResponseEntity<>(details, HttpStatus.BAD_REQUEST);

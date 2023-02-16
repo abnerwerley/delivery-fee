@@ -9,8 +9,8 @@ import com.delivery.fee.service.FeeService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.junit.jupiter.api.Assertions;
+import org.springframework.web.client.RestTemplate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,26 +26,19 @@ public class SendingInValidCepStep {
     @When("request is made with invalid id")
     public void request_is_made_with_invalid_id() {
         CepForm form = new CepForm(CEP);
-        WebClient client = WebClient.builder()
-                .baseUrl("viacep.com.br/ws")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/vnd.api+json")
-                .defaultHeader(HttpHeaders.ACCEPT, "application/vnd.api+json")
-                .build();
-        AddressService addressService = new AddressService(client);
+        RestTemplate restTemplate = new RestTemplate();
+        AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
-//        assertNotNull(controller.getFeeByCep(form));
+        Exception exception = Assertions.assertThrows(RequestException.class, () -> controller.getFeeByCep(form));
+        assertNotNull(exception);
     }
 
     @Then("RequestException is thrown explaining the error")
     public void requestException_is_thrown_explaining_the_error() {
         CepForm form = new CepForm(CEP);
-        WebClient client = WebClient.builder()
-                .baseUrl("viacep.com.br/ws")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/vnd.api+json")
-                .defaultHeader(HttpHeaders.ACCEPT, "application/vnd.api+json")
-                .build();
-        AddressService addressService = new AddressService(client);
+        RestTemplate restTemplate = new RestTemplate();
+        AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
         Exception exception = assertThrows(RequestException.class, () -> controller.getFeeByCep(form));
