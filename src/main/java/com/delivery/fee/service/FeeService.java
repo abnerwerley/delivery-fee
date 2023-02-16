@@ -3,7 +3,7 @@ package com.delivery.fee.service;
 import com.delivery.address.dto.AddressTO;
 import com.delivery.address.service.AddressService;
 import com.delivery.exception.RequestException;
-import com.delivery.fee.dto.EnumBrazilianZones;
+import com.delivery.fee.dto.EnumBrazilianRegions;
 import com.delivery.fee.dto.FeeResponse;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -27,7 +27,7 @@ public class FeeService {
         try {
             if (cep != null) {
                 AddressTO address = addressService.getAddressTemplate(cep);
-                verifyZone(address.getUf());
+                verifyRegion(address.getUf());
                 return new FeeResponse(address, getFeeByZone(address.getUf()));
             }
             throw new RequestException("Cep is mandatory.");
@@ -40,8 +40,8 @@ public class FeeService {
         }
     }
 
-    public String verifyZone(String state) {
-        for (EnumBrazilianZones zone : EnumBrazilianZones.values()) {
+    public String verifyRegion(String state) {
+        for (EnumBrazilianRegions zone : EnumBrazilianRegions.values()) {
             if (zone.hasState(state)) {
                 return zone.name();
             }
@@ -50,7 +50,7 @@ public class FeeService {
     }
 
     public BigDecimal getFeeByZone(String state) {
-        for (EnumBrazilianZones zone : EnumBrazilianZones.values()) {
+        for (EnumBrazilianRegions zone : EnumBrazilianRegions.values()) {
             if (zone.hasState(state)) {
                 return zone.getFee();
             }

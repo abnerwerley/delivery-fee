@@ -3,7 +3,7 @@ package com.delivery.feeService;
 import com.delivery.address.dto.AddressTO;
 import com.delivery.address.service.AddressService;
 import com.delivery.exception.RequestException;
-import com.delivery.fee.dto.EnumBrazilianZones;
+import com.delivery.fee.dto.EnumBrazilianRegions;
 import com.delivery.fee.dto.FeeResponse;
 import com.delivery.fee.service.FeeService;
 import org.junit.jupiter.api.Assertions;
@@ -84,27 +84,27 @@ class FeeServiceTest {
 
     @Test
     void testVerifyZone() {
-        String sp = service.verifyZone(SP);
+        String sp = service.verifyRegion(SP);
         assertNotNull(sp);
-        assertEquals(EnumBrazilianZones.SUDESTE.toString(), sp);
+        assertEquals(EnumBrazilianRegions.SUDESTE.toString(), sp);
 
-        String ac = service.verifyZone(AC);
+        String ac = service.verifyRegion(AC);
         assertNotNull(ac);
-        assertEquals(EnumBrazilianZones.NORTE.toString(), ac);
+        assertEquals(EnumBrazilianRegions.NORTE.toString(), ac);
 
-        String al = service.verifyZone(AL);
+        String al = service.verifyRegion(AL);
         assertNotNull(al);
-        assertEquals(EnumBrazilianZones.NORDESTE.toString(), al);
+        assertEquals(EnumBrazilianRegions.NORDESTE.toString(), al);
 
-        String df = service.verifyZone(DF);
+        String df = service.verifyRegion(DF);
         assertNotNull(df);
-        assertEquals(EnumBrazilianZones.CENTRO_OESTE.toString(), df);
+        assertEquals(EnumBrazilianRegions.CENTRO_OESTE.toString(), df);
 
-        String pr = service.verifyZone(PR);
+        String pr = service.verifyRegion(PR);
         assertNotNull(pr);
-        assertEquals(EnumBrazilianZones.SUL.toString(), pr);
+        assertEquals(EnumBrazilianRegions.SUL.toString(), pr);
 
-        Exception notAState = Assertions.assertThrows(NoSuchElementException.class, () -> service.verifyZone(NOT_A_STATE));
+        Exception notAState = Assertions.assertThrows(NoSuchElementException.class, () -> service.verifyRegion(NOT_A_STATE));
         assertNotNull(notAState);
         assertEquals("State isn't from Brazil.", notAState.getMessage());
     }

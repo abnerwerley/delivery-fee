@@ -2,9 +2,9 @@ package com.delivery.acceptance.steps;
 
 
 import com.delivery.address.service.AddressService;
+import com.delivery.exception.RequestException;
 import com.delivery.fee.controller.FeeController;
 import com.delivery.fee.dto.CepForm;
-import com.delivery.fee.dto.FeeResponse;
 import com.delivery.fee.service.FeeService;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -12,38 +12,37 @@ import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
+import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+public class SendingInvalidCepStep {
 
-public class SendingValidCepStep {
+    public static final String CEP = "A1234567";
 
-    public static final String CEP = "04851280";
-
-    @Given("valid cep")
-    public void valid_cep() {
+    @Given("invalid cep")
+    public void invalid_cep() {
         CepForm form = new CepForm(CEP);
     }
 
-    @When("request is made")
-    public void request_is_made() {
+    @When("request is made with invalid cep")
+    public void request_is_made_with_invalid_cep() {
         CepForm form = new CepForm(CEP);
         RestTemplate restTemplate = new RestTemplate();
         AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
-        Assertions.assertNotNull(controller.getDeliveryFeeByCep(form));
+        Exception exception = Assertions.assertThrows(RequestException.class, () -> controller.getDeliveryFeeByCep(form));
+        assertNotNull(exception);
     }
 
-    @Then("FeeResponse is returned according to cep")
-    public void feeResponse_is_returned_according_to_cep() {
+    @Then("RequestException is thrown explaining the error")
+    public void requestException_is_thrown_explaining_the_error() {
         CepForm form = new CepForm(CEP);
         RestTemplate restTemplate = new RestTemplate();
         AddressService addressService = new AddressService(restTemplate);
         FeeService service = new FeeService(addressService);
         FeeController controller = new FeeController(service);
-        FeeResponse response = controller.getDeliveryFeeByCep(form);
-        Assertions.assertNotNull(response);
-        assertEquals(new BigDecimal("7.85"), response.getFrete());
+        Exception exception = assertThrows(RequestException.class, () -> controller.getDeliveryFeeByCep(form));
+        assertNotNull(exception);
+        assertEquals("Please verify if cep has 8 numbers, and numbers only.", exception.getMessage());
     }
 }
